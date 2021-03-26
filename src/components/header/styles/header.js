@@ -13,7 +13,8 @@ export const Background = styled.section`
 
 export const Container = styled.div`
     display: flex;
-    margin: 0 56px;
+    margin: 0px 56px;
+   // max-width: 1200px;
     height: 64px;
     padding: 18px 0;
     justify-content: space-between;
@@ -26,6 +27,7 @@ export const Container = styled.div`
     @media (max-width: 1000px) {
         margin: 0 30px;
     }
+
 `;
 
 export const Link = styled.p`
