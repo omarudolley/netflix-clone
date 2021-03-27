@@ -2,14 +2,17 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     display: flex;
-    max-width: 1000px;
+    //max-width: 1000px;
     flex-direction: column;
-    padding: 70px 56px;
+    padding: 70px 56px 0px 250px;
     margin: auto;
-    
+    background-color: ${({displayBg})=>displayBg?'rgba(0, 0, 0, 0.75)':'none'};
+
     @media (max-width: 1000px) {
         padding: 70px 30px;
     }
+   
+    width:100%;
 `;
 
 export const Column = styled.div`
@@ -26,6 +29,7 @@ export const Row = styled.div`
     @media (max-width: 1000px) {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
+    
 `;
 
 export const Link = styled.a`

@@ -4,12 +4,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {firebase,FieldValue} from './lib/firebase'
 import { GlobalStyles } from './global-style'
+import FirebaseContext from './context/firebase'
 
 ReactDOM.render(
-  <React.StrictMode>
+  <FirebaseContext.Provider value={{firebase,FieldValue}}>
     <GlobalStyles/>
     <App />
-  </React.StrictMode>,
+  </FirebaseContext.Provider>,
   document.getElementById('root')
 );
 
