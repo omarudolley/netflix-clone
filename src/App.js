@@ -1,6 +1,9 @@
-import React,{lazy,Suspense} from 'react'
+import React,{lazy,Suspense, useState} from 'react'
 import {BrowserRouter as Router, Route,Switch} from 'react-router-dom'
 import * as ROUTES from './constants/routes'
+import UserContext from './context/userContext'
+import useAuthListener from './hooks/use-auth-listener'
+import ProtectedRoute from './helpers/protectedRoutes'
 
 
 
@@ -11,26 +14,39 @@ const Browse = lazy(()=>import('./pages/browse'))
 
 
 export default function App() {
+
+  const {user} = useAuthListener()
+  
   return (
-    <Suspense fallback="loading..">
-        <Router>
-        <Switch>
-          <Route path={ROUTES.BROWSE}>
-            <Browse/>
-          </Route>
-          <Route path={ROUTES.SIGN_IN}>
-            <SignIn/>
-          </Route>
-          <Route path={ROUTES.SIGN_UP}>
-            <SignUp/>
-          </Route>
-          <Route path={ROUTES.HOME}>
-            <Home/>
-          </Route>
-        </Switch>
-      </Router>
-    </Suspense>
-   
+        <UserContext.Provider value={{user}}>
+              <Router>
+              <Suspense fallback={<p>Loading...</p>}>
+                <Switch>
+
+                    <ProtectedRoute 
+                    loggedInPath={ROUTES.SIGN_IN} 
+                    user={user} 
+                    path={ROUTES.BROWSE} exact>
+                        <Browse/>
+                    </ProtectedRoute>
+
+                    <Route path={ROUTES.SIGN_IN}>
+                        <SignIn/>
+                    </Route>
+
+                    <Route path={ROUTES.SIGN_UP}>
+                        <SignUp/>
+                    </Route>
+
+                    <Route path={ROUTES.HOME}>
+                        <Home/>
+                    </Route>
+
+                </Switch>
+            </Suspense>
+          </Router>
+        </UserContext.Provider>
+        
   );
 }
 

@@ -5,6 +5,7 @@ import { Form } from '../components';
 import * as ROUTES from '../constants/routes';
 import {Footer} from '../components'
 import FirebaseContext from '../context/firebase'
+import {useHistory} from 'react-router-dom'
 
 export default function Signup() {
     const [fullName, setFullName] = useState('');
@@ -15,14 +16,23 @@ export default function Signup() {
     const {firebase} = useContext(FirebaseContext)
     
     const isInvalid = fullName === '' || password === '' || emailAddress === '';
+
+    const history = useHistory()
     
     const handleSignup = async (event) => {
         event.preventDefault();
         try{  
             const result = await firebase.auth().createUserWithEmailAndPassword(emailAddress, password);
             await result.user.updateProfile({
-                displayName:fullName
-            })}
+
+                profile: [{
+                    displayName:fullName,
+                    photoUrl:Math.floor(Math.random()+5)+1
+                }]
+               
+            })
+            history.push("/browse")
+        }
         catch(error){
             setEmailAddress('')
             setPassword('')
